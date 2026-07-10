@@ -24,6 +24,7 @@ db.employees.insertMany([
 ])
 
 - Find employees jahan salary bonus se zyada hai
+
 - Find employees jahan salary + bonus > 60000
 
 
@@ -107,3 +108,48 @@ db.students.insertMany([
 ])
 
 - Find students jahan maths marks science se zyada hain
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1}
+- db.employees.find({
+  $expr: {
+    $gt: [ '$salary', '$bonus' ]
+  }
+})
+
+2}
+db.employees.find({
+  $expr: {
+    $gt: [
+      { $add: [ '$salary', '$bonus' ] },
+      60000
+    ]
+  }
+})
+
+
+3}
+db.products.find({
+  $expr: {
+    $gt: [ '$price', '$discountPrice' ]
+  }
+})
+
+
+4}db.students.find({
+  name: { $regex: 'ravi' }
+})
