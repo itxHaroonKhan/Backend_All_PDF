@@ -1,3 +1,14 @@
+[
+  { "naam": "Rahul", "phone": 98765, "age": 25 },
+  { "naam": "Priya", "age": 22 },
+  { "naam": "Amit", "phone": 12345, "age": "Bais Saal" }
+]
+
+db.users.find({ phone: { $exists: true } })
+db.users.find({ age: { $type: 'int' } })
+
+
+
 # employees
 
 db.employees.insertMany([
