@@ -7,6 +7,33 @@
 db.users.find({ phone: { $exists: true } })
 db.users.find({ age: { $type: 'int' } })
 
+db.products.find(
+  {
+    name:{$regex:'^h'}
+  }
+)
+
+db.products.find(
+  {
+    name:{$regex:'s$'}
+  }
+)
+
+
+db.products.find(
+  {
+    name:{$regex:'^H',$options:'s'}
+  }
+)
+
+
+db.products.find(
+  {
+    name: /^h/i
+  }
+)
+
+
 
 
 # employees
