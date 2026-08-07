@@ -1,67 +1,112 @@
 use('test')
 
-// db.students.insertOne({
-//     _id:2,
-//     name:'rahul',
-//     courses:[
-//         {
-//             _id:1,
-//             name:'BCA',
-//             price:150000,
-//             duration:3
-//         },
-//     ]
-// })
 
-// db.students.find(
-//     { 'courses.name': 'Graphic Design' }
-// )
+// 1. Embedding Example
+// Student کے اندر Course کا پورا data رکھا گیا ہے
 
-// db.students.insertOne({
-//     _id: 3,
-//     name:'mohit',
-//     address:{
-//         city:'bhagalpur',
-//         state:'bihar',
-//         pincode:812004,
-//     }
-// })
+db.students.insertOne({
+    _id:2,
+    name:'Haroon',
+    courses:[
+        {
+            _id:1,
+            name:'BCA',
+            price:150000,
+            duration:3
+        },
+    ]
+})
 
 
-// db.students.updateOne(
-//     {'address.city':'bhagalpur'},
-//     {$set: {'address.city':'patna'}}
-// )
+// Student کے courses میں search کرنا
 
-// db.students.find()
-
-// db.students.find({},{'address.city':1, _id: 0})
+db.students.find(
+    { 'courses.name': 'BCA' }
+)
 
 
-// db.courses.insertOne({
-//     _id: 2,
-//     name: 'Graphic Design',
-//     price: 150000,
-//     duration: 1
-// })
+// 2. Embedding Example
+// Student کے اندر Address رکھا گیا ہے
 
-// db.courses.find()
+db.students.insertOne({
+    _id:3,
+    name:'Haroon',
+    address:{
+        city:'Karachi',
+        state:'Sindh',
+        pincode:75100,
+    }
+})
 
-// db.students.insertOne({
-//     _id:5,
-//     name:'maha faltu',
-//     courses:[1, 2]
-// })
 
-// db.students.find();
+// Address city update کرنا
 
-// db.students.aggregate([
-//     {
-//         $lookup:{
-//             from: 'courses',
-//             localField:'courses',
-//             foreignField: '_id',
-//             as:'coursesDetails'
-//         }
-//     }
-// ])
+db.students.updateOne(
+    {'address.city':'Karachi'},
+    {
+        $set:{
+            'address.city':'Lahore'
+        }
+    }
+)
+
+
+// تمام students دیکھنا
+
+db.students.find()
+
+
+// صرف address city دکھانا
+
+db.students.find(
+    {},
+    {
+        'address.city':1,
+        _id:0
+    }
+)
+
+
+// 3. Referencing Example
+// Courses کا الگ collection بنانا
+
+db.courses.insertOne({
+    _id:2,
+    name:'Graphic Design',
+    price:150000,
+    duration:1
+})
+
+
+// Courses دیکھنا
+
+db.courses.find()
+
+
+// Student میں صرف Course IDs save کرنا
+
+db.students.insertOne({
+    _id:5,
+    name:'Haroon',
+    courses:[1,2]
+})
+
+
+// Students دیکھنا
+
+db.students.find()
+
+
+// 4. $lookup Example
+// Students اور Courses کو join کرنا
+
+db.students.aggregate([
+    {
+        $lookup:{
+            from:'courses',
+            localField:'courses',
+            foreignField:'_id',
+            as:'coursesDetails'
+        }
+    }
+])
